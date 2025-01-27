@@ -1,9 +1,9 @@
-// components/ArcGISMap.tsx
+// components/FeatureLayer.tsx
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
-const ArcGISMap = () => {
+const FeatureLayer = ({ feature_url }: { feature_url: string }) => {
   const mapDiv = useRef(null);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const ArcGISMap = () => {
         });
 
         const municipiosLayer = new FeatureLayer({
-          url: "https://services6.arcgis.com/uaRkpyZiQH3wzm7O/arcgis/rest/services/LIM_PerfilMunicipal_AAS_IBGE2022/FeatureServer",
+          url: feature_url,
           outFields: ["*"],
           popupTemplate: {
             title: "{NM_MUN}",
@@ -71,4 +71,4 @@ const ArcGISMap = () => {
   );
 };
 
-export default ArcGISMap;
+export default FeatureLayer;

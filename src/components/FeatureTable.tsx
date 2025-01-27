@@ -1,9 +1,10 @@
+// components/FeatureTable.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import Papa from 'papaparse';
 
-export default function FeatureTable() {
+export default function FeatureTable({ feature_url }: { feature_url: string }) {
   const [features, setFeatures] = useState<any[]>([]);
   const [fields, setFields] = useState<{ name: string; alias: string }[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -17,7 +18,7 @@ export default function FeatureTable() {
         const { default: FeatureLayer } = await import("@arcgis/core/layers/FeatureLayer");
 
         const layer = new FeatureLayer({
-          url: "https://services6.arcgis.com/uaRkpyZiQH3wzm7O/ArcGIS/rest/services/LIM_Semiarido2021_IBGE2022/FeatureServer"
+          url: feature_url
         });
 
         // Consulta os dados

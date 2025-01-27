@@ -1,9 +1,8 @@
-// app/page.tsx
 "use client";
 
+import { useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
-// Importação dinâmica do componente do mapa
 const DynamicMap = dynamic(
   () => import('@/src/components/FeatureLayer'),
   {
@@ -12,10 +11,17 @@ const DynamicMap = dynamic(
   }
 );
 
-export default function Home() {
+export default function LayerPage() {
+  const searchParams = useSearchParams();
+  const layerUrl = searchParams.get('url');
+
+  if (!layerUrl) {
+    return <div className="p-4">Nenhuma layer selecionada</div>;
+  }
+
   return (
     <main className="flex h-full w-full flex-col items-center justify-between">
-      <DynamicMap />
+      <DynamicMap feature_url={layerUrl} />
     </main>
   );
 }
