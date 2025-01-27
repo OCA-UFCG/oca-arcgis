@@ -16,7 +16,7 @@ const FeatureSelector: React.FC<FeatureSelectorProps> = ({ baseUrl, onLayerSelec
         setLoading(true);
         const response = await fetch(`${baseUrl}?f=json`);
         const data = await response.json();
-        
+
         if (data.services) {
           setLayers(data.services);
         } else {
@@ -50,7 +50,7 @@ const FeatureSelector: React.FC<FeatureSelectorProps> = ({ baseUrl, onLayerSelec
 
   return (
     <div className="w-full max-w-md mx-auto p-4">
-      <select 
+      <select
         className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
         onChange={(e) => onLayerSelect(`${baseUrl}/${e.target.value}/FeatureServer`)}
       >
