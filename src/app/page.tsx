@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 
 // Componente que será carregado apenas no cliente
 const MapComponent = () => {
-  const mapDiv = useRef<HTMLDivElement>(null);
+  const mapDiv = useRef(null);
 
   useEffect(() => {
     // Importação dinâmica dos módulos ArcGIS
@@ -36,7 +36,7 @@ const MapComponent = () => {
 
         // Criar a feature layer
         const municipiosLayer = new FeatureLayer({
-          url: "https://services6.arcgis.com/uaRkpyZiQH3wzm7O/ArcGIS/rest/services/LIM_Semiarido2021_IBGE2022/FeatureServer",
+          url: "https://services6.arcgis.com/uaRkpyZiQH3wzm7O/arcgis/rest/services/LIM_PerfilMunicipal_AAS_IBGE2022/FeatureServer",
           outFields: ["*"],
           popupTemplate: {
             title: "{NM_MUN}",
@@ -56,6 +56,19 @@ const MapComponent = () => {
 
         // Adicionar a layer ao mapa
         map.add(municipiosLayer);
+
+        // Consultar os atributos da feature layer
+        municipiosLayer.queryFeatures({
+          where: "1=1",  // Retorna todas as features
+          outFields: ["*"],  // Retorna todos os campos
+          returnGeometry: false,  // Não retorna a geometria para economizar dados
+          num: 10  // Limita a 10 registros para teste. Remova ou ajuste conforme necessário
+        }).then(response => {
+          console.log("Campos disponíveis:", response.fields.map(f => f.name));
+          console.log("Exemplo de registros:", response.features.map(f => f.attributes));
+        }).catch(error => {
+          console.error("Erro ao consultar features:", error);
+        });
 
         // Limpeza ao desmontar o componente
         return () => {
